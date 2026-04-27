@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Product - Staff Portal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Furniture Catalog Management</h1>
+    </div>
+    <div class="navbar">
+        <a href="staff_insert_item.html">Furniture Items</a>
+        <a href="staff_insert_material.html">Materials</a>
+        <a href="staff_update_order.html">Orders</a>
+        <a href="staff_delete_item.html" class="active">Delete Items</a>
+        <a href="index.html" style="float:right">Back</a>
+    </div>
+
+    <div class="container">
+        <h2>Product List (Select to Delete)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>FID</th>
+                    <th>Furniture Name</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>001</td>
+                    <td>Oak Dining Chair</td>
+                    <td>$450.00</td>
+                    <td><button class="btn btn-danger" onclick="confirm('Delete this product permanently?')">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>002</td>
+                    <td>Large Dining Table</td>
+                    <td>$2500.00</td>
+                    <td><button class="btn btn-danger" onclick="confirm('Delete this product permanently?')">Delete</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

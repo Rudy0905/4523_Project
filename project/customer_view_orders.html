@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders - Premium Living</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Premium Living Furniture</h1>
+    </div>
+    <div class="navbar">
+        <a href="customer_make_order.html">Browse Furniture</a>
+        <a href="customer_cart.html">My Cart</a>
+        <a href="customer_view_orders.html" class="active">My Orders</a>
+        <a href="customer_update_profile.html">Profile</a>
+        <a href="index.html" style="float:right">Logout</a>
+    </div>
+
+    <div class="container">
+        <h2>Order History</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#1001</td>
+                    <td>2026-04-20</td>
+                    <td>HKD 1,200.00</td>
+                    <td><span class="badge status-completed">Completed</span></td>
+                    <td><button class="btn btn-primary">View Info</button></td>
+                </tr>
+                <tr>
+                    <td>#1045</td>
+                    <td>2026-04-27</td>
+                    <td>HKD 3,400.00</td>
+                    <td><span class="badge status-open">Open</span></td>
+                    <td><button class="btn btn-primary">View Info</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory Report - Staff</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Management Reports</h1>
+    </div>
+    <div class="navbar">
+        <a href="staff_insert_item.html">Furniture Items</a>
+        <a href="staff_insert_material.html">Materials</a>
+        <a href="staff_update_order.html">Orders</a>
+        <a href="staff_generate_report.html" class="active">Reports</a>
+        <a href="index.html" style="float:right">Back</a>
+    </div>
+
+    <div class="container">
+        <h2>Monthly Stock & Sales Summary</h2>
+        <div style="margin: 20px 0; padding: 15px; background: #e8f4fd; border-radius: 4px;">
+            <strong>Quick Analysis:</strong> Current wood plank stock is below threshold. Suggest reordering.
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Material Name</th>
+                    <th>Stock Level</th>
+                    <th>Units Sold (Monthly)</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Oak Wood Plank</td>
+                    <td>45 pcs</td>
+                    <td>120</td>
+                    <td><span class="badge status-pending">Low Stock</span></td>
+                </tr>
+                <tr>
+                    <td>Steel Tube</td>
+                    <td>200 meters</td>
+                    <td>30</td>
+                    <td><span class="badge status-completed">Healthy</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <button class="btn btn-primary" onclick="window.print()">Export to PDF (Print)</button>
+    </div>
+</body>
+</html>

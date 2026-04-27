@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cancel Order - Premium Living</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Premium Living Furniture</h1>
+    </div>
+    <div class="navbar">
+        <a href="customer_make_order.html">Browse Furniture</a>
+        <a href="customer_cart.html">My Cart</a>
+        <a href="customer_view_orders.html">My Orders</a>
+        <a href="customer_delete_order.html" class="active">Delete Order</a>
+        <a href="index.html" style="float:right">Logout</a>
+    </div>
+
+    <div class="container">
+        <h2>Cancel/Delete Recent Orders</h2>
+        <p style="color: #e74c3c;">Note: Only "Open" orders can be cancelled.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>#1045</td>
+                    <td>2026-04-27</td>
+                    <td><span class="badge status-open">Open</span></td>
+                    <td><button class="btn btn-danger" onclick="confirm('Are you sure you want to delete this order?')">Delete Record</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
