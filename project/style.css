@@ -7,12 +7,25 @@ body {
     color: #333;
 }
 
+/* 修改 Header 以支持 Logo 与标题水平居中对齐 */
 .header {
     background-color: #2c3e50; /* Deep Blue professional theme */
     color: white;
     padding: 20px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px; /* 控制 Logo 和文字之间的间距 */
+}
+
+/* 新增的 Logo 样式 */
+.header .logo {
+    height: 120px; /* 根据需要调整 Logo 高度 */
+    width: auto;
+    object-fit: contain;
+    border-radius: 8px; /* 可选：让 Logo 边缘圆润 */
 }
 
 .container {

@@ -1,12 +1,20 @@
 <?php
 // 引入数据库连接工具文件
-// Include database connection utility file
 require_once 'db_connect.php';
+
+// 🌟 新增逻辑：如果用户点击了“访客浏览”，立刻销毁任何残留的登录状态！
+if (isset($_GET['action']) && $_GET['action'] === 'guest') {
+    session_unset();    // 清空所有 Session 变量
+    session_destroy();  // 彻底销毁 Session
+    
+    // 获取当前目录并跳转到主页
+    $current_dir = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+    header("Location: " . $current_dir . "/customer_home.php");
+    exit;
+}
 
 $error_msg = "";
 
-// 检查是否为表单提交请求
-// Check if the request method is POST for form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $role = $_POST['role'] ?? 'customer';
     $user_id = trim($_POST['user_id'] ?? '');
@@ -14,47 +22,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($user_id) && !empty($password)) {
         
-        // 获取当前脚本运行的目录路径，防止跳转时丢失子文件夹名
-        // Get the current script directory path to prevent losing subfolder name during redirection
         $current_dir = rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
 
         if ($role === 'customer') {
-            // 使用预处理语句防止 SQL 注入（匹配顾客）
-            // Use prepared statements to prevent SQL Injection (Match customer)
-            $stmt = $pdo->prepare("SELECT * FROM Customers WHERE cid = ? AND cpassword = ?");
+            // 对齐你的数据库 `customers` 表 (cid, cpassword)
+            $stmt = $pdo->prepare("SELECT * FROM customers WHERE cid = ? AND cpassword = ?");
             $stmt->execute([$user_id, $password]);
             $user = $stmt->fetch();
 
             if ($user) {
-                // 登录成功，保存顾客状态到 Session
-                // Login successful, save customer state into Session
                 $_SESSION['user_role'] = 'customer';
                 $_SESSION['user_id'] = $user['cid'];
                 $_SESSION['user_name'] = $user['cname'];
                 
-                // 动态拼接完整路径，安全重定向到顾客商品浏览页面
-                // Dynamically concatenate full path, safely redirect to customer browse product page
-                header("Location: " . $current_dir . "/customer_make_order.php");
+                header("Location: " . $current_dir . "/customer_home.php");
                 exit;
             } else {
                 $error_msg = "Invalid Customer ID or Password!";
             }
         } else if ($role === 'staff') {
-            // 使用预处理语句匹配员工
-            // Use prepared statements to match staff
-            $stmt = $pdo->prepare("SELECT * FROM Staffs WHERE sid = ? AND spassword = ?");
+            // 对齐你的数据库 `staffs` 表 (sid, spassword)
+            $stmt = $pdo->prepare("SELECT * FROM staffs WHERE sid = ? AND spassword = ?");
             $stmt->execute([$user_id, $password]);
             $staff = $stmt->fetch();
 
             if ($staff) {
-                // 登录成功，保存员工状态到 Session
-                // Login successful, save staff state into Session
                 $_SESSION['user_role'] = 'staff';
                 $_SESSION['user_id'] = $staff['sid'];
                 $_SESSION['user_name'] = $staff['sname'];
                 
-                // 动态拼接完整路径，安全重定向到员工订单管理页面
-                // Dynamically concatenate full path, safely redirect to staff order management page
                 header("Location: " . $current_dir . "/staff_update_order.php");
                 exit;
             } else {
@@ -71,50 +67,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Login - Premium Living Furniture</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.1">
     <style>
-        .login-box {
-            max-width: 380px; 
-            margin: 80px auto;
-            background: white;
-            padding: 25px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .role-selector {
-            display: flex;
-            gap: 20px;
-            margin-top: 6px;
-            margin-bottom: 6px;
-            align-items: center;
-        }
-        .role-selector input[type="radio"] {
-            width: 25px;
-            height: 25px;
-            margin: 0;
-            cursor: pointer;
-        }
-        .role-selector label {
-            font-size: 13px;
-            font-weight: normal;
-            color: #555;
-            cursor: pointer;
-        }
-        .error-block {
-            background-color: #fce4e4;
-            border: 1px solid #f6b0b0;
-            color: #cc0000;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
+        .login-box { max-width: 380px; margin: 80px auto; background: white; padding: 25px 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .role-selector { display: flex; gap: 20px; margin-top: 6px; margin-bottom: 6px; align-items: center; }
+        .role-selector input[type="radio"] { width: 25px; height: 25px; margin: 0; cursor: pointer; }
+        .role-selector label { font-size: 13px; font-weight: normal; color: #555; cursor: pointer; }
+        .error-block { background-color: #fce4e4; border: 1px solid #f6b0b0; color: #cc0000; padding: 10px; border-radius: 4px; margin-bottom: 15px; font-size: 14px; }
+        .header { background-color: #ffffff; padding: 5px 40px; display: flex; justify-content: center; align-items: center; border-bottom: 1px solid #eaeaea; }
+        .header img { height: 200px; width: auto; object-fit: contain; margin: -20px 0; }
     </style>
 </head>
-<body>
+<body style="background-color: #f9f9f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0;">
 
     <div class="header">
-        <h1>Premium Living Furniture</h1>
+        <img src="Logo(text).png?v=1" alt="Premium Living Logo">
     </div>
 
     <div class="login-box">
@@ -125,29 +92,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form action="index.php" method="POST">
-            <div class="form-group">
-                <label>Identify Yourself:</label>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #2c3e50;">Identify Yourself:</label>
                 <div class="role-selector">
                     <input type="radio" id="role_customer" name="role" value="customer" checked>
                     <label for="role_customer">Customer</label>
-                    
                     <input type="radio" id="role_staff" name="role" value="staff">
                     <label for="role_staff">Staff / Admin</label>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>User ID / Account Number:</label>
-                <input type="text" name="user_id" placeholder="e.g. 1" required>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #2c3e50;">User ID / Account Number:</label>
+                <input type="text" name="user_id" placeholder="e.g. 1" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 14px;">
             </div>
 
-            <div class="form-group">
-                <label>Password:</label>
-                <input type="password" name="password" placeholder="••••••••" required>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #2c3e50;">Password:</label>
+                <input type="password" name="password" placeholder="••••••••" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; font-size: 14px;">
             </div>
 
             <div class="login-btn-container">
-                <button type="submit" class="btn-login" style="width:100%; padding: 12px; background-color: #2c3e50; color:white; border:none; border-radius:4px; font-size:16px; cursor:pointer;">Login</button>
+                <button type="submit" style="width:100%; padding: 12px; background-color: #2c3e50; color:white; border:none; border-radius:4px; font-size:16px; font-weight:bold; cursor:pointer;">Login</button>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <a href="index.php?action=guest" style="color: #3498db; text-decoration: none; font-size: 15px; font-weight: bold; display: inline-block; padding: 10px; border-radius: 4px; transition: background 0.3s;">
+                    🏠 Browse as Guest (No Login Required)
+                </a>
             </div>
         </form>
 
@@ -155,8 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <hr style="border: 0; border-top: 1px solid #eee; margin-bottom: 12px;">
             <strong>Database Hint:</strong><br>
             According to SQL script setup:<br>
-            - Customer Login ID: <code>1</code>, Password: <code>password123</code><br>
-            - Staff Login ID: <code>1</code>, Password: <code>staffpass</code>
+            - Customer Login ID: <code>1</code>, Password: <code>cust123</code><br>
+            - Staff Login ID: <code>1</code>, Password: <code>admin</code>
         </div>
     </div>
 

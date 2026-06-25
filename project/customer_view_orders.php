@@ -101,7 +101,7 @@ if (!empty($_SESSION['cart'])) {
 <head>
     <meta charset="UTF-8">
     <title>My Orders - Premium Living</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=1.1">
     <style>
         /* 🎨 完美保持：纯 CSS 补全右上角小人图案，与商品图互不干涉 */
         .nav-avatar-icon {
@@ -142,6 +142,7 @@ if (!empty($_SESSION['cart'])) {
 <body>
 
     <div class="header">
+        <img src="Logo.png?v=2" alt="Premium Living Logo" class="logo">
         <h1>Premium Living Furniture</h1>
     </div>
 
